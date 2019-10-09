@@ -1,0 +1,7 @@
+django
+djangorestframework
+rules
+pyyaml
+pytest
+pytest-django
+pytest-sugar

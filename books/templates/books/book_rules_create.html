@@ -1,0 +1,9 @@
+<div>
+  <form action="" method="post">
+    {% csrf_token %}
+      {{ form.as_p }}
+    <p>
+    <input type="submit" class="btn btn-primary" name="confirm" value="Confirm" />
+    <input type="submit" class="btn btn-primary" name="cancel"  value="Cancel"  />
+  </form>
+</div>
