@@ -1,10 +1,4 @@
-from    rest_framework.permissions    import   (AllowAny,
-                                                IsAuthenticated,
-                                                IsAdminUser,
-                                                IsAuthenticatedOrReadOnly,
-                                                DjangoModelPermissions,
-                                                DjangoModelPermissionsOrAnonReadOnly,
-                                                DjangoObjectPermissions)
+from    rest_framework.permissions    import    DjangoModelPermissions, DjangoObjectPermissions
 from    rest_framework.generics       import   (CreateAPIView,
                                                 ListAPIView,
                                                 RetrieveAPIView,
