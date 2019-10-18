@@ -115,20 +115,20 @@ class TestBookRulesViews:
 
 
     def test_authenticated_user_can_update_own_book(self, client, rusers, rbooks):
-        if not client.login(username = 'ruser1', password = 'password'):
+        if not client.login(username = 'ruser3', password = 'password'):
             pytest.fail('failed to login')
 
         response  = client.post(
                              path  = reverse(
                                        viewname  = 'books_web_app:rules-update',
                                        kwargs    = {
-                                                     'title':  'RBook 1'
+                                                     'title':  'RBook 2'
                                                    }
                                      ),
                              data  = {
-                                       'title':   'RBook 1',
+                                       'title':   'RBook 2',
                                        'isbn':    '222',
-                                       'author':  'ruser1'
+                                       'author':  'ruser3'
                                      }
                            )
 
@@ -136,10 +136,10 @@ class TestBookRulesViews:
         assert response.url == reverse(
                                  viewname  = 'books_web_app:rules-detail',
                                  kwargs    = {
-                                               'title':   'RBook 1'
+                                               'title':   'RBook 2'
                                              }
                            )
-        assert RBook.objects.get(title = 'RBook 1').isbn == '222'
+        assert RBook.objects.get(title = 'RBook 2').isbn == '222'
 
 
     def test_user_with_group_permission_updates_another_users_book(self, client, rusers, rbooks):
@@ -171,14 +171,14 @@ class TestBookRulesViews:
 
 
     def test_authenticated_user_can_delete_own_book(self, client, rusers, rbooks):
-        if not client.login(username = 'ruser1', password = 'password'):
+        if not client.login(username = 'ruser3', password = 'password'):
             pytest.fail('failed to login')
 
         response  = client.post(
                              path  = reverse(
                                        viewname  = 'books_web_app:rules-delete',
                                        kwargs    = {
-                                                     'title':  'RBook 1'
+                                                     'title':  'RBook 2'
                                                    }
                                      )
                            )
@@ -187,7 +187,7 @@ class TestBookRulesViews:
         assert response.url == reverse(
                                  viewname  = 'books_web_app:book-home'
                                )
-        assert set(map(str, RBook.objects.all())) == set(['RBook 2'])
+        assert set(map(str, RBook.objects.all())) == set(['RBook 1'])
 
 
     def test_authenticated_user_without_permission_cannot_delete_book(self, client, rusers, rbooks):
