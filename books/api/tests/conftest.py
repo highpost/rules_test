@@ -1,7 +1,6 @@
 import pytest
 
 from    django.contrib.auth.models    import    Group, Permission
-from    django.urls                   import    reverse
 from    ...models                     import    Book, RBook
 
 
@@ -52,7 +51,7 @@ def users(django_user_model):
 
 
 @pytest.fixture()
-def books(users, django_user_model):
+def books(django_user_model, users):
     Book.objects.create(
       title   = 'Book 1',
       isbn    = '123',
@@ -60,7 +59,7 @@ def books(users, django_user_model):
     )
     Book.objects.create(
       title   = 'Book 2',
-      isbn    = '345',
+      isbn    = '456',
       author  = django_user_model.objects.get(username = 'user2')
     )
 
@@ -103,7 +102,7 @@ def rusers(django_user_model):
 
 
 @pytest.fixture()
-def rbooks(rusers, django_user_model):
+def rbooks(django_user_model, rusers):
     RBook.objects.create(
       title   = 'RBook 1',
       isbn    = '123',
@@ -111,6 +110,6 @@ def rbooks(rusers, django_user_model):
     )
     RBook.objects.create(
       title   = 'RBook 2',
-      isbn    = '345',
+      isbn    = '456',
       author  = django_user_model.objects.get(username = 'ruser3')
     )

@@ -20,8 +20,8 @@ class TestBookRulesViews:
     def test_user_has_perms(self, client, django_user_model, rusers):
         assert django_user_model.objects.get(username = 'ruser1').has_perm('books.add_rbook')    == True
         assert django_user_model.objects.get(username = 'ruser1').has_perm('books.view_rbook')   == True
-        assert django_user_model.objects.get(username = 'ruser1').has_perm('books.change_rbook') == False
-        assert django_user_model.objects.get(username = 'ruser1').has_perm('books.delete_rbook') == False
+        assert django_user_model.objects.get(username = 'ruser1').has_perm('books.change_rbook') == True
+        assert django_user_model.objects.get(username = 'ruser1').has_perm('books.delete_rbook') == True
 
         assert django_user_model.objects.get(username = 'ruser2').has_perm('books.add_rbook')    == True
         assert django_user_model.objects.get(username = 'ruser2').has_perm('books.view_rbook')   == True

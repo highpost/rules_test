@@ -21,7 +21,7 @@ class TestBookAuthViews:
         assert django_user_model.objects.get(username = 'user1').has_perm('books.add_book')    == True
         assert django_user_model.objects.get(username = 'user1').has_perm('books.view_book')   == True
         assert django_user_model.objects.get(username = 'user1').has_perm('books.change_book') == True
-        assert django_user_model.objects.get(username = 'user1').has_perm('books.delete_book') == False
+        assert django_user_model.objects.get(username = 'user1').has_perm('books.delete_book') == True
 
         assert django_user_model.objects.get(username = 'user2').has_perm('books.add_book')    == False
         assert django_user_model.objects.get(username = 'user2').has_perm('books.view_book')   == False

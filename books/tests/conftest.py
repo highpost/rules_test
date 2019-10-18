@@ -20,6 +20,7 @@ def users(django_user_model):
     user1.user_permissions.add(add_book)
     user1.user_permissions.add(view_book)
     user1.user_permissions.add(change_book)
+    user1.user_permissions.add(delete_book)
     user1.save()
 
     user2    = django_user_model.objects.create(
@@ -48,6 +49,7 @@ def users(django_user_model):
     user4.set_password('password'),
     user4.save()
 
+
 @pytest.fixture()
 def books(django_user_model, users):
     Book.objects.create(
@@ -61,6 +63,7 @@ def books(django_user_model, users):
       author  = django_user_model.objects.get(username = 'user2')
     )
 
+
 @pytest.fixture()
 def rusers(django_user_model):
     add_rbook     = Permission.objects.get(codename = 'add_rbook')
@@ -68,7 +71,7 @@ def rusers(django_user_model):
     change_rbook  = Permission.objects.get(codename = 'change_rbook')
     delete_rbook  = Permission.objects.get(codename = 'delete_rbook')
 
-    editors  = Group.objects.create(name = 'reditors')
+    editors       = Group.objects.create(name = 'reditors')
 
     user1    = django_user_model.objects.create(
                  username      = 'ruser1',
@@ -76,6 +79,8 @@ def rusers(django_user_model):
                  is_staff      = False
                )
     user1.set_password('password'),
+    user1.user_permissions.add(change_rbook)
+    user1.user_permissions.add(delete_rbook)
     user1.save()
 
     user2    = django_user_model.objects.create(
@@ -93,12 +98,8 @@ def rusers(django_user_model):
                  is_staff      = False
                )
     user3.set_password('password'),
-    #
-    # user3.user_permissions.add(delete_rbook)
-    #   this successfully adds a permission that has_perm() can detect,
-    #   but then an actual test of delete() fails
-    #
     user3.save()
+
 
 @pytest.fixture()
 def rbooks(django_user_model, rusers):
