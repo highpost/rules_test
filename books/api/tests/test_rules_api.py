@@ -165,12 +165,13 @@ class TestBookRulesAPIViews:
                              path          = reverse(
                                                viewname  = 'books_api_app:rules-update',
                                                kwargs    = {
-                                                             'title':  'RBook 2'
+                                                             'title':  'RBook 1'
                                                            }
                                              ),
                              data          = {
                                                'isbn':  '222'
-                                             }
+                                             },
+                             content_type  = 'application/json'
                            )
 
         assert response.status_code == 200
@@ -182,15 +183,15 @@ class TestBookRulesAPIViews:
             pytest.fail('not anonymous user')
 
         response  = client.patch(
-                             path          = reverse(
-                                               viewname  = 'books_api_app:rules-update',
-                                               kwargs    = {
-                                                             'title':  'RBook 1'
-                                                           }
-                                             ),
-                             data          = {
-                                               'isbn':  '222'
-                                             }
+                             path  = reverse(
+                                       viewname  = 'books_api_app:rules-update',
+                                       kwargs    = {
+                                                     'title':  'RBook 1'
+                                                   }
+                                     ),
+                             data  = {
+                                       'isbn':  '222'
+                                     }
                            )
 
         assert response.status_code == 302
