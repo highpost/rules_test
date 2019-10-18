@@ -112,5 +112,5 @@ def rbooks(rusers, django_user_model):
     RBook.objects.create(
       title   = 'RBook 2',
       isbn    = '345',
-      author  = django_user_model.objects.get(username = 'ruser2')
+      author  = django_user_model.objects.get(username = 'ruser3')
     )

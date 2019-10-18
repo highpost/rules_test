@@ -158,24 +158,24 @@ class TestBookRulesAPIViews:
 
 
     def test_authenticated_user_can_update_own_book(self, client, rusers, rbooks):
-        if not client.login(username = 'ruser1', password = 'password'):
+        if not client.login(username = 'ruser3', password = 'password'):
             pytest.fail('failed to login')
 
         response  = client.patch(
                              path          = reverse(
                                                viewname  = 'books_api_app:rules-update',
                                                kwargs    = {
-                                                             'title':  'RBook 1'
+                                                             'title':  'RBook 2'
                                                            }
                                              ),
                              data          = {
                                                'isbn':  '222',
                                              },
-                             content_type  = 'application/json'
+                             #content_type  = 'application/json'
                            )
 
         assert response.status_code == 200
-        assert RBook.objects.get(title = 'RBook 1').isbn == '222'
+        assert RBook.objects.get(title = 'RBook 2').isbn == '222'
 
 
     def test_anonymous_user_cannot_update_book(self, client, rusers, rbooks):
@@ -252,20 +252,20 @@ class TestBookRulesAPIViews:
 
 
     def test_authenticated_user_can_delete_own_book(self, client, rusers, rbooks):
-        if not client.login(username = 'ruser1', password = 'password'):
+        if not client.login(username = 'ruser3', password = 'password'):
             pytest.fail('failed to login')
 
         response  = client.delete(
                              path  = reverse(
                                        viewname  = 'books_api_app:rules-delete',
                                        kwargs    = {
-                                                     'title':  'RBook 1'
+                                                     'title':  'RBook 2'
                                                    }
                                      )
                            )
 
         assert response.status_code == 204
-        assert set(map(str, RBook.objects.all())) == set(['RBook 2'])
+        assert set(map(str, RBook.objects.all())) == set(['RBook 1'])
 
 
     def test_authenticated_user_with_user_permission_can_delete_another_users_book(self, client, rusers, rbooks):
