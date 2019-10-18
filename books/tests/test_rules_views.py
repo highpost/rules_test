@@ -80,7 +80,7 @@ class TestBookRulesViews:
 
 
     def test_authenticated_user_can_view_book(self, client, rusers, rbooks):
-        if not client.login(username = 'ruser1', password = 'password'):
+        if not client.login(username = 'ruser3', password = 'password'):
             pytest.fail('failed to login')
 
         response  = client.get(
