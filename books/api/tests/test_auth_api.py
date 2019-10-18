@@ -8,7 +8,7 @@ from    ...models                 import    Book
 
 
 class TestBookAuthAPIViews:
-    def test_model_perms(self, client, rbooks):
+    def test_model_perms(self, client, books):
         perms  = Permission.objects.filter(
                    content_type__app_label  = 'books',
                    content_type             = ContentType.objects.get_for_model(Book))
@@ -16,7 +16,7 @@ class TestBookAuthAPIViews:
         assert set([perm.codename for perm in perms]) == set(['add_book', 'view_book', 'change_book', 'delete_book'])
 
 
-    def test_user_perms(self, client, django_user_model, users):
+    def test_user_has_perms(self, client, django_user_model, users):
         assert django_user_model.objects.get(username = 'user1').has_perm('books.add_book')    == True
         assert django_user_model.objects.get(username = 'user1').has_perm('books.view_book')   == True
         assert django_user_model.objects.get(username = 'user1').has_perm('books.change_book') == True

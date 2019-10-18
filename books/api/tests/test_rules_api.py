@@ -39,7 +39,7 @@ class TestBookRulesAPIViews:
 
         response  = client.post(
                       path  = reverse(
-                                viewname  = 'books_api_app:rules-create',
+                                viewname  = 'books_api_app:rules-create'
                               ),
                       data  = {
                                 'title':   'RBook 3',
@@ -58,7 +58,7 @@ class TestBookRulesAPIViews:
 
         response  = client.post(
                              path  = reverse(
-                                       viewname  = 'books_api_app:rules-create',
+                                       viewname  = 'books_api_app:rules-create'
                                      ),
                              data  = {
                                        'title':   'Book 3',
@@ -169,9 +169,8 @@ class TestBookRulesAPIViews:
                                                            }
                                              ),
                              data          = {
-                                               'isbn':  '222',
-                                             },
-                             #content_type  = 'application/json'
+                                               'isbn':  '222'
+                                             }
                            )
 
         assert response.status_code == 200
@@ -190,9 +189,8 @@ class TestBookRulesAPIViews:
                                                            }
                                              ),
                              data          = {
-                                               'isbn':  '222',
-                                             },
-                             content_type  = 'application/json'
+                                               'isbn':  '222'
+                                             }
                            )
 
         assert response.status_code == 302
@@ -221,7 +219,7 @@ class TestBookRulesAPIViews:
                                                            }
                                              ),
                              data          = {
-                                               'isbn':  '222',
+                                               'isbn':  '222'
                                              },
                              content_type  = 'application/json'
                            )
@@ -242,7 +240,7 @@ class TestBookRulesAPIViews:
                                                            }
                                              ),
                              data          = {
-                                               'isbn':  '222',
+                                               'isbn':  '222'
                                              },
                              content_type  = 'application/json'
                            )
@@ -310,3 +308,20 @@ class TestBookRulesAPIViews:
                                                 }
                                   )
                                )
+
+
+    def test_authenticated_user_without_permission_cannot_delete_book(self, client, rusers, rbooks):
+        if not client.login(username = 'ruser3', password = 'password'):
+            pytest.fail('failed to login')
+
+        response  = client.delete(
+                             path  = reverse(
+                                       viewname  = 'books_api_app:rules-delete',
+                                       kwargs    = {
+                                                     'title':  'RBook%201'
+                                                   }
+                                     )
+                           )
+
+        assert response.status_code == 404
+        assert set(map(str, RBook.objects.all())) == set(['RBook 1', 'RBook 2'])

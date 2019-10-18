@@ -1,12 +1,39 @@
 import pytest
 
 from django.contrib import auth
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
 from django.urls import reverse
 from ..models import RBook
 
 
 @pytest.mark.django_db
 class TestBookRulesViews:
+    def test_model_perms(self, client, rbooks):
+        perms  = Permission.objects.filter(
+                   content_type__app_label  = 'books',
+                   content_type             = ContentType.objects.get_for_model(RBook))
+
+        assert set([perm.codename for perm in perms]) == set(['add_rbook', 'view_rbook', 'change_rbook', 'delete_rbook'])
+
+
+    def test_user_has_perms(self, client, django_user_model, rusers):
+        assert django_user_model.objects.get(username = 'ruser1').has_perm('books.add_rbook')    == True
+        assert django_user_model.objects.get(username = 'ruser1').has_perm('books.view_rbook')   == True
+        assert django_user_model.objects.get(username = 'ruser1').has_perm('books.change_rbook') == True
+        assert django_user_model.objects.get(username = 'ruser1').has_perm('books.delete_rbook') == True
+
+        assert django_user_model.objects.get(username = 'ruser2').has_perm('books.add_rbook')    == True
+        assert django_user_model.objects.get(username = 'ruser2').has_perm('books.view_rbook')   == True
+        assert django_user_model.objects.get(username = 'ruser2').has_perm('books.change_rbook') == True
+        assert django_user_model.objects.get(username = 'ruser2').has_perm('books.delete_rbook') == False
+
+        assert django_user_model.objects.get(username = 'ruser3').has_perm('books.add_rbook')    == True
+        assert django_user_model.objects.get(username = 'ruser3').has_perm('books.view_rbook')   == True
+        assert django_user_model.objects.get(username = 'ruser3').has_perm('books.change_rbook') == False
+        assert django_user_model.objects.get(username = 'ruser3').has_perm('books.delete_rbook') == False
+
+
     def test_authenticated_user_can_create_book(self, client, rusers, rbooks):
         if not client.login(username = 'ruser1', password = 'password'):
             pytest.fail('failed to login')
