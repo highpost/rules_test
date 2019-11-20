@@ -161,6 +161,20 @@ class TestBookRulesAPIViews:
         if not client.login(username = 'ruser3', password = 'password'):
             pytest.fail('failed to login')
 
+        #
+        # /opt/alex/pyvenv/venv/lib/python3.7/site-packages/django/contrib/auth/mixins.py(83)dispatch()
+        # /opt/alex/pyvenv/venv/lib/python3.7/site-packages/rules/contrib/views.py(60)has_permission()
+        # /opt/alex/pyvenv/venv/lib/python3.7/site-packages/rules/contrib/views.py(56)get_permission_object()
+        # /opt/alex/pyvenv/venv/lib/python3.7/site-packages/rest_framework/generics.py(99)get_object()
+        # /opt/alex/pyvenv/venv/lib/python3.7/site-packages/rest_framework/views.py(344)check_object_permissions()
+        #
+        # b /opt/alex/pyvenv/venv/lib/python3.7/site-packages/django/contrib/auth/mixins.py:83
+        # b /opt/alex/pyvenv/venv/lib/python3.7/site-packages/rest_framework/views.py:342
+        #
+        # https://stackoverflow.com/a/51747714/1953757
+        # https://github.com/encode/django-rest-framework/issues/918
+        # https://github.com/JamesRitchie/django-rest-framework-expiring-tokens/issues/11
+        #
         response  = client.patch(
                              path          = reverse(
                                                viewname  = 'books_api_app:rules-update',

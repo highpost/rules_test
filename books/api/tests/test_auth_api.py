@@ -1,10 +1,10 @@
 import pytest
 
-from    django.contrib            import    auth
-from    django.contrib.auth.models        import    Permission
+from    django.contrib                        import    auth
+from    django.contrib.auth.models            import    Permission
 from    django.contrib.contenttypes.models    import    ContentType
-from    django.urls               import    reverse
-from    ...models                 import    Book
+from    django.urls                           import    reverse
+from    ...models                             import    Book
 
 
 class TestBookAuthAPIViews:
